@@ -304,7 +304,7 @@ async fn connect(
     let mut writer = BufWriter::new(write);
     let connect_req = ConnectReq {
         connection_type: ConnectionType::Client,
-        client_id: access_id,
+        access_id: access_id,
         access_token,
     };
 

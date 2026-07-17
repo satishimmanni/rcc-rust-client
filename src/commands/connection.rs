@@ -42,7 +42,7 @@ impl From<&ConnectionType> for u8 {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ConnectReq {
     pub connection_type: ConnectionType,
-    pub client_id: String,
+    pub access_id: String,
     pub access_token: String,
 }
 
