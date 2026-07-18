@@ -69,7 +69,7 @@ impl CommandReqSerializer for BloomFilterCfgReq {
             } => {
                 parser::append_small_string(buf, "PUT_CFG");
                 parser::append_small_string(buf, config_key);
-                parser::append_i64(buf, config.item_count);
+                parser::append_u64(buf, config.item_count);
                 parser::append_i64(buf, *timestamp);
             }
             BloomFilterCfgReq::GetConfig { config_key } => {

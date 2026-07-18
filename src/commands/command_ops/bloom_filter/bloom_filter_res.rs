@@ -64,13 +64,13 @@ impl ResParser for BloomFilterRes {
             }),
             "GET_CFG" => Ok(BloomFilterRes::GetConfig {
                 config: BloomFilterConfig {
-                    item_count: parser::read_i64(reader).await?,
+                    item_count: parser::read_u64(reader).await?,
                 },
                 status: CommandStatus::from(parser::read_u8(reader).await?),
             }),
             "DEL_CFG" => Ok(BloomFilterRes::DelConfig {
                 config: BloomFilterConfig {
-                    item_count: parser::read_i64(reader).await?,
+                    item_count: parser::read_u64(reader).await?,
                 },
                 status: CommandStatus::from(parser::read_u8(reader).await?),
             }),

@@ -96,7 +96,7 @@ impl Client {
     }
 
     pub fn get_key_hash(key: &[u8]) -> u64 {
-        xxh3_64(key) % 65536
+        xxh3_64(key) //% 65536
     }
 
     pub fn get_client_id(&self) -> Uuid {

@@ -1,6 +1,6 @@
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub struct BloomFilterConfig {
-    pub item_count: i64,
+    pub item_count: u64,
 }
 
 impl BloomFilterConfig {
