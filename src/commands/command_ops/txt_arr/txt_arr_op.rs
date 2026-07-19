@@ -1,6 +1,6 @@
 use chrono::Utc;
 
-use crate::commands::command_ops::txt_arr::txt_arr_req::TxtArrReq;
+use crate::{commands::command_ops::txt_arr::txt_arr_req::TxtArrReq, util::clock};
 
 impl TxtArrReq {
     pub fn put(value: Vec<String>, ttl: u32) -> TxtArrReq {
@@ -8,7 +8,7 @@ impl TxtArrReq {
             timestamp: Utc::now().timestamp_micros(),
             value,
             ttl: if ttl != 0 {
-                Utc::now().timestamp() as u32 + ttl
+                clock::get_current_secs() + ttl
             } else {
                 0
             },

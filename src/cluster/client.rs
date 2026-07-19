@@ -26,6 +26,7 @@ use crate::{
     },
     commands::{command::RetryReq, command_req::Req, command_res::CommandRes},
     pool::async_pool::AsyncPool,
+    util::clock,
 };
 
 #[derive(Debug)]
@@ -69,6 +70,7 @@ impl Client {
         access_id: String,
         access_token: String,
     ) -> Result<Arc<Self>, Error> {
+        clock::init();
         tracing::debug!("boot");
         let client = Arc::new(Client {
             id: Uuid::new_v4(),
@@ -96,7 +98,7 @@ impl Client {
     }
 
     pub fn get_key_hash(key: &[u8]) -> u64 {
-        xxh3_64(key) //% 65536
+        xxh3_64(key) % 65535
     }
 
     pub fn get_client_id(&self) -> Uuid {

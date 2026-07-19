@@ -1,6 +1,6 @@
 use chrono::Utc;
 
-use crate::commands::command_ops::text::text_req::TextReq;
+use crate::{commands::command_ops::text::text_req::TextReq, util::clock};
 
 impl TextReq {
     pub fn put(value: String, ttl: u32) -> TextReq {
@@ -8,7 +8,7 @@ impl TextReq {
             timestamp: Utc::now().timestamp_micros(),
             value,
             ttl: if ttl != 0 {
-                Utc::now().timestamp() as u32 + ttl
+                clock::get_current_secs() + ttl
             } else {
                 0
             },

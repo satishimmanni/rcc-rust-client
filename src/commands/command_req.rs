@@ -146,9 +146,25 @@ impl CmdParser for CommandReq {
     }
 }
 
+impl CommandReq {
+    fn get_estimated_capacity(&self) -> usize {
+        match self {
+            CommandReq::Text(TextReq::Put { value, .. }) => {
+                //string prefix(1byte) + length(u32) + length of string
+                //  1                  +4            + len(str)
+                5 + value.len()
+            }
+            CommandReq::TxtArr(TxtArrReq::Put { value, .. }) => {
+                value.iter().map(|v| 5 + v.len()).sum()
+            }
+            _ => 0,
+        }
+    }
+}
+
 impl CommandSerailizer for KeyReq {
     fn serialize(&self, uuid: uuid::Uuid, hash: u64, timestamp: i64) -> Box<[u8]> {
-        let mut buf = Vec::new();
+        let mut buf = Vec::with_capacity(48 + self.key.len() + self.req.get_estimated_capacity());
         parser::append_req_header(&mut buf, CommandType::Data, uuid, hash, timestamp);
         parser::append_small_string(&mut buf, &self.key);
         match &self.req {
@@ -174,7 +190,7 @@ impl CommandSerailizer for KeyReq {
 
 impl CfgSerailizer for CfgReq {
     fn serialize(&self, uuid: uuid::Uuid, hash: u64, timestamp: i64) -> Box<[u8]> {
-        let mut buf = Vec::new();
+        let mut buf = Vec::with_capacity(64);
 
         parser::append_req_header(&mut buf, CommandType::Cfg, uuid, hash, timestamp);
 
